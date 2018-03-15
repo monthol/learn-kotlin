@@ -7,8 +7,8 @@ Install Kotlin compiler
 brew install kotlin
 which koltinc
 ```
-```kotlinc``` will launch REPL (Read Eval Print Loop)
-``:quit`` to quit the REPL
+``kotlinc`` will launch REPL (Read Eval Print Loop)
+`:quit` to quit the REPL
 
 #Koltin Application Structure
-use ```vi```
+use `vi`
