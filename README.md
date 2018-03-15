@@ -72,11 +72,59 @@ val myToLong = myInt.toLong() //OK.
 String in Kotlin
 ```
 val rawString = "Hello" +
->>"This is second line" +
->>"This is third line" //OK but not nice
+  "This is second line" +
+  "This is third line" //OK but not nice
   
 val rawString = """
   Hello
->>This is second line.
->>This is third line.
+  This is second line.
+  This is third line.
 """
+```
+String interpolation and invoke function in string interpolation
+```
+val years = 10
+println("A decade is $year years.")
+
+val name = "Mary"
+println("The name length is ${name.length} long.") //length is a String property (the only one).
+```
+#11 Loop and Ranges
+Note - Kotlin allows to have `fun main(args Array<String>)` in each file in the package but not two in the same file.
+`..` is an operator overloaded for rangeTo() function
+
+Reverse loop can use `..` or `downTo`
+
+```
+for (a in 100 downTo 1 step 5) {
+  println(a)
+}
+val capitals= listOf("London", "Paris", "Rome", "Madrid")
+for (capital in capitals) {
+  p
+```
+`Unit` equivalent to other languages `void`
+`when` equivalent to Java `case`
+When using `if` and `when` as an expression, expression must be exhaustive. i.e. it probably need `else` statement.
+
+#14-16 functions
+By default return type is `Unit` object, equivalent to `void`. For not return at all use return type `Nothing`, which is a `class`.
+###I. Default parameters
+###II. Named parameter
+not recommend function with 4-5 parameters
+###III varied argument numbers
+pass in undefined number of parameters not known before hands.
+`*` spread operators is used to pass vararg arguments to another function.
+#17 Classes
+class can have property declared just like variables. Much like Immutable properties.
+Kotlin has no concept of field in Kotlin.
+No `new` keyword in Kotlin.
+
+If you don't want to initialize the properties, we can move it to constructor. That means we want to do initialization when creating the class.
+
+```
+class Customer(var id: Integer, var name: String) {
+}
+```
+without `var`, `id` and `name` are just parameters passed to constructor. with `var`, `id` and `name` are now properties (`customer.id` is available.)
+
