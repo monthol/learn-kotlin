@@ -89,7 +89,7 @@ println("A decade is $year years.")
 val name = "Mary"
 println("The name length is ${name.length} long.") //length is a String property (the only one).
 ```
-#11 Loop and Ranges
+# 11 Loop and Ranges
 Note - Kotlin allows to have `fun main(args Array<String>)` in each file in the package but not two in the same file.
 `..` is an operator overloaded for rangeTo() function
 
@@ -107,15 +107,15 @@ for (capital in capitals) {
 `when` equivalent to Java `case`
 When using `if` and `when` as an expression, expression must be exhaustive. i.e. it probably need `else` statement.
 
-#14-16 functions
+# 14-16 functions
 By default return type is `Unit` object, equivalent to `void`. For not return at all use return type `Nothing`, which is a `class`.
-###I. Default parameters
-###II. Named parameter
+### I. Default parameters
+### II. Named parameter
 not recommend function with 4-5 parameters
-###III varied argument numbers
+### III varied argument numbers
 pass in undefined number of parameters not known before hands.
 `*` spread operators is used to pass vararg arguments to another function.
-#17 Classes
+# 17 Classes
 class can have property declared just like variables. Much like Immutable properties.
 Kotlin has no concept of field in Kotlin.
 No `new` keyword in Kotlin.
@@ -128,3 +128,84 @@ class Customer(var id: Integer, var name: String) {
 ```
 without `var`, `id` and `name` are just parameters passed to constructor. with `var`, `id` and `name` are now properties (`customer.id` is available.)
 
+'init' block cannot be used to defined new properties.
+```
+class Customer (val id: String, name: String) {
+    init {
+        val upperName = name.toUpperCase()
+    }
+}
+
+fun main(args: Array<String>) {
+	val customer = Customer("1", "Monthol")
+    println(customer.upperName) //unresolved reference upperName
+}
+```
+### Custom getter and setter
+If we want to define custom getters and setters, we need to define a property in the class body instead of the class declaration header.
+```
+class Customer (val id: Int, var name: String, var yearOfBirth: Int) {
+    val age: Int
+        get() = Calendar.getInstance().get(Calendar.YEAR) - yearOfBirth
+}
+
+val customer = Customer(1, "Monthol", 1978)
+```
+When we provide custom setter. Kotlin does not auto setting the value. We need to set the property by accessing the backing field with `field`
+
+```
+class Customer (val id: Int, var name: String, var yearOfBirth: Int) {
+    val age: Int
+        get() = Calendar.getInstance().get(Calendar.YEAR) - yearOfBirth
+    val socialSecurityNumber: String
+        set(value) {
+            if (!value.startWith("SN")) {
+                throw IllegalArgumentException ("Value not started with SN")
+            }
+            field = value
+        }
+}
+```
+
+val customer = Customer(1, "Monthol", 1978)
+### The getter versus property default value (from Moskala et. Wojda)
+Property value with customer getter is calculated each time property is accessed.
+```
+class Fruit(var weight: Double) {
+           val heavy             // 1
+           get() = weight > 20
+}
+       //usage
+       var fruit = Fruit(7.0)
+       println(fruit.heavy) //prints: false
+       fruit.weight = 30.5
+       println(fruit.heavy) //prints: true
+
+```
+Property value with default parameter is calculated once and does not changed.
+```
+class Fruit(var weight: Double) {
+           val isHeavy = weight > 20
+       }
+       var fruit = Fruit(7.0)
+       println(fruit.isHeavy) // Prints: false
+       fruit.weight = 30.5
+       println(fruit.isHeavy) // Prints: false
+```
+Declaring properties is not allowed for secondary constructors. So declare it in the class body, and we can initialize it in the secondary constructor body.
+
+When a primary constructor is defined, every secondary constructor must call the primary constructor implicitly (via another secondary constructor) or explicitly.
+```
+class Customer (val id: String, var name: String) {
+    init {      //init block is part of primary constructor?
+        name = name.toUpperCase()
+    }
+    
+    constructor (id: String) : this(id, "") {   // no property defining allow here (no `val` or `var`) at the secondary constructor
+    
+    }
+```
+
+
+
+`@JvmOverload` annotation informs the compiler to generate in additional JVM bytecode constructor overload for every parameter with a default value.
