@@ -206,6 +206,67 @@ class Customer (val id: String, var name: String) {
     }
 ```
 
-
-
 `@JvmOverload` annotation informs the compiler to generate in additional JVM bytecode constructor overload for every parameter with a default value.
+
+## 19 Visibility Modifiers
+There are 4 visibility modifiers in Kotlin
+public (default)
+private (top level/class) visible within the same file(top level) or within class(class)
+internal (top level/class) visible in the same module (Gradle module, Maven module, IntelliJ module,...)
+protected (class only) visible within class and its subclasses
+
+## 23 Type Casting
+Smart-casting is the ability of the compiler to check that it is a certain type and smart-cast to it
+
+```
+open class Persion {
+}
+
+class Employee : Person() {
+    fun vacationDays(days: Int) {
+        if (days < 60) {
+	    println("You need more vacation.")
+	}
+    }
+
+class Contractor : Person() {
+}
+
+fun hasVacations(obj: Person) {
+    if (obj is Employee) {
+        obj.vacationDays(20) \\obj is smart-casted to Employee, it is now highlighted in green and auto-complete available for vacationDays()
+    }
+}
+
+fun main(args: Array<String>) {
+} 
+```
+There is no implicit cast in Kotlin.
+```
+var input: Any = 10
+
+fun main(args: Array<String>) {
+    val str = input as String
+    println(str.length) // Class cast exception.
+}
+```
+So safe cast it with `as?`
+```
+```
+var input: Any = 10
+
+fun main(args: Array<String>) {
+    val str = input as? String
+    println(str.length) // Class cast exception.
+}
+```
+
+In intelliJ
+#### Flatten or expand package folder trees
+click setting on top of project plane.
+#### Navigating to Recent File
+View | Recent Files or press Ctrl+E
+#### Override functions in java class
+place cursor at class name and press `ctrl`+`Ent`
+#### Comment out text
+`cmd`+`/`
