@@ -252,12 +252,27 @@ fun main(args: Array<String>) {
 ```
 So safe cast it with `as?`
 ```
-```
 var input: Any = 10
 
 fun main(args: Array<String>) {
     val str = input as? String
     println(str.length) // Class cast exception.
+}
+```
+## 26 Exceptions
+Java is one of a few languages that have checked exceptions.
+Base class for exceptions in Kotlin is `Throwable`
+```
+class NotANumberException: Throwable() {
+}
+
+fun checkIsNumber (obj: Any) {
+    when (obj) {
+    !is Int, Long, Float, Double -> throw NotANumberException()
+}
+
+fun main(args Array<String>) {
+    checkIsNumber("A")
 }
 ```
 
