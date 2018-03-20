@@ -141,6 +141,7 @@ fun main(args: Array<String>) {
     println(customer.upperName) //unresolved reference upperName
 }
 ```
+http://kotlinlang.org/docs/reference/classes.html#constructors
 ### Custom getter and setter
 If we want to define custom getters and setters, we need to define a property in the class body instead of the class declaration header.
 ```
@@ -197,12 +198,10 @@ Declaring properties is not allowed for secondary constructors. So declare it in
 When a primary constructor is defined, every secondary constructor must call the primary constructor implicitly (via another secondary constructor) or explicitly.
 ```
 class Customer (val id: String, var name: String) {
-    init {      //init block is part of primary constructor?
+    init {      //code in initializer blocks effectively becomes part of the primary constructor and executed before the secondary constructor body, even if the class has no primary constructor.
         name = name.toUpperCase()
-    }
-    
-    constructor (id: String) : this(id, "") {   // no property defining allow here (no `val` or `var`) at the secondary constructor
-    
+    }    
+    constructor (id: String) : this(id, "") {   // no property defining allow here (no `val` or `var`) at the secondary constructor  
     }
 ```
 
@@ -275,7 +274,68 @@ fun main(args Array<String>) {
     checkIsNumber("A")
 }
 ```
+## 27 Inheritance
+http://kotlinlang.org/docs/reference/classes.html#inheritance
+In Kotlin by default all types are final.
+Much like the class, we need to declare members we want to override as `open` too.
+In inherited class, if we want to refer to constructor of the base class we can use keyword `super`.
+```
+open class Person {
+    open fun validate() {
+    }
+}
 
+class Customer: Person {
+    override fun validate() {
+    }
+    constructor(): super() {
+    }
+}
+
+fun main(args: Array<String>) {
+
+```
+### Superclass and its constructor
+from: https://stackoverflow.com/questions/44244700/constructor-in-kotlin
+```
+//OK.
+open class test {
+}
+class test2 : test() {
+}
+
+//Not OK. Supertype initialization is impossible without primary constructor.
+open class test {
+}
+class test2 = test() {
+    constructor(a: Int): super() {
+}
+
+//OK. No calling `test()`, just `test`
+open class test {
+}
+class test2 = test {
+    constructor(a: Int): super() {
+}
+
+//OK. Call to primary constructor
+open class test {
+}
+class test2() = test() {
+    constructor(a: Int): this() {
+}
+```
+A member marked override is itself `open`, i.e. it may be overridden in subclasses. If you want to prohibit re-overriding, use `final`:
+```
+open class AnotherDerived() : Base() {
+    final override fun v() {}
+}
+```
+## 28 Abstract Classes
+Class that can not create an instance. But we can create its inferitance. Not every members of abstract class must be abstract. Abstract can have states.
+Abstract class or function are open by inself. No `open` keyword required.
+```
+```
 In intelliJ
 #### Flatten or expand package folder trees
 click setting on top of project plane.
